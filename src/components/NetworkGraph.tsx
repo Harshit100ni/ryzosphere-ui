@@ -184,107 +184,107 @@ const NetworkGraph: React.FC<iNetworkGraph> = (props) => {
         draggable: true,
       },
     },
-    tooltip: {
-      useHTML: true,
-      backgroundColor: "rgba(255, 255, 255, 0.0)", // Make Highcharts tooltip background fully transparent
-      borderWidth: 0,
-      shadow: false,
-      formatter: function (
-        this: Highcharts.TooltipFormatterContextObject
-      ): string {
-        const point = this.point as NetworkGraphPoint;
-        if (point.relationship) {
-          return `
-            <div class="p-2">
-              <div class="font-bold text-lg">${point.relationship}</div>
-            </div>
-          `;
-        }
-        return `
-          <div class="p-4 max-w-md rounded-xl" style="background-color: rgba(255, 255, 255, 0.6); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1)">
-            <div class="space-y-3">
-              <div class="-m-4 mb-3 p-4 rounded-t-xl" 
-                   style="background-color: rgba(239, 246, 255, 0.7);">
-                <h3 class="text-xl font-bold text-blue-900">${
-                  point.name || "Unnamed Node"
-                }</h3>
-                <div class="mt-1 text-sm text-blue-700">
-                  ${point.type || "No Type/Status"}
-                </div>
-              </div>
-              
-              <div class="flex items-start gap-2">
-                <div class="text-gray-800 font-medium min-w-[80px]">Labels:</div>
-                <div class="text-gray-900">${
-                  point.labels
-                    ?.map(
-                      (label) =>
-                        `<span class="inline-block px-2 py-1 mr-1 mb-1 rounded-full text-sm" 
-                         style="background-color: rgba(239, 246, 255, 0.7); color: rgb(29, 78, 216);">
-                    ${label}
-                  </span>`
-                    )
-                    .join("") || "N/A"
-                }</div>
-              </div>
-              
-              <div class="flex items-start gap-2">
-                <div class="text-gray-800 font-medium min-w-[80px]">Services:</div>
-                <div class="text-gray-900">${
-                  point.services
-                    ?.map(
-                      (service) =>
-                        `<span class="inline-block px-2 py-1 mr-1 mb-1 rounded-full text-sm" 
-                         style="background-color: rgba(240, 253, 244, 0.7); color: rgb(21, 128, 61);">
-                    ${service}
-                  </span>`
-                    )
-                    .join("") || "N/A"
-                }</div>
-              </div>
-              
-              <div class="grid grid-cols-2 gap-3">
-                <div>
-                  <div class="text-gray-800 font-medium mb-1">AUM</div>
-                  <div class="text-gray-900 font-semibold">${
-                    point.aum || "N/A"
-                  }</div>
-                </div>
-                
-                <div>
-                  <div class="text-gray-800 font-medium mb-1">Risk Level</div>
-                  <div class="font-semibold ${
-                    point.riskLevel?.toLowerCase().includes("high")
-                      ? "text-red-700"
-                      : point.riskLevel?.toLowerCase().includes("medium")
-                      ? "text-yellow-700"
-                      : point.riskLevel?.toLowerCase().includes("low")
-                      ? "text-green-700"
-                      : "text-gray-900"
-                  }">${point.riskLevel || "N/A"}</div>
-                </div>
-              </div>
-              
-              <div>
-                <div class="text-gray-800 font-medium mb-1">Location</div>
-                <div class="text-gray-900">${point.location || "N/A"}</div>
-              </div>
-              
-              ${
-                point.notes
-                  ? `
-                <div class="pt-2 mt-2" style="border-top: 1px solid rgba(229, 231, 235, 0.7);">
-                  <div class="text-gray-800 font-medium mb-1">Notes</div>
-                  <div class="text-gray-900 text-sm">${point.notes}</div>
-                </div>
-              `
-                  : ""
-              }
-            </div>
-          </div>
-        `;
-      },
-    },
+    // tooltip: {
+    //   useHTML: true,
+    //   backgroundColor: "rgba(255, 255, 255, 0.0)", // Make Highcharts tooltip background fully transparent
+    //   borderWidth: 0,
+    //   shadow: false,
+    //   formatter: function (
+    //     this: Highcharts.TooltipFormatterContextObject
+    //   ): string {
+    //     const point = this.point as NetworkGraphPoint;
+    //     if (point.relationship) {
+    //       return `
+    //         <div class="p-2">
+    //           <div class="font-bold text-lg">${point.relationship}</div>
+    //         </div>
+    //       `;
+    //     }
+    //     return `
+    //       <div class="p-4 max-w-md rounded-xl" style="background-color: rgba(255, 255, 255, 0.6); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1)">
+    //         <div class="space-y-3">
+    //           <div class="-m-4 mb-3 p-4 rounded-t-xl"
+    //                style="background-color: rgba(239, 246, 255, 0.7);">
+    //             <h3 class="text-xl font-bold text-blue-900">${
+    //               point.name || "Unnamed Node"
+    //             }</h3>
+    //             <div class="mt-1 text-sm text-blue-700">
+    //               ${point.type || "No Type/Status"}
+    //             </div>
+    //           </div>
+
+    //           <div class="flex items-start gap-2">
+    //             <div class="text-gray-800 font-medium min-w-[80px]">Labels:</div>
+    //             <div class="text-gray-900">${
+    //               point.labels
+    //                 ?.map(
+    //                   (label) =>
+    //                     `<span class="inline-block px-2 py-1 mr-1 mb-1 rounded-full text-sm"
+    //                      style="background-color: rgba(239, 246, 255, 0.7); color: rgb(29, 78, 216);">
+    //                 ${label}
+    //               </span>`
+    //                 )
+    //                 .join("") || "N/A"
+    //             }</div>
+    //           </div>
+
+    //           <div class="flex items-start gap-2">
+    //             <div class="text-gray-800 font-medium min-w-[80px]">Services:</div>
+    //             <div class="text-gray-900">${
+    //               point.services
+    //                 ?.map(
+    //                   (service) =>
+    //                     `<span class="inline-block px-2 py-1 mr-1 mb-1 rounded-full text-sm"
+    //                      style="background-color: rgba(240, 253, 244, 0.7); color: rgb(21, 128, 61);">
+    //                 ${service}
+    //               </span>`
+    //                 )
+    //                 .join("") || "N/A"
+    //             }</div>
+    //           </div>
+
+    //           <div class="grid grid-cols-2 gap-3">
+    //             <div>
+    //               <div class="text-gray-800 font-medium mb-1">AUM</div>
+    //               <div class="text-gray-900 font-semibold">${
+    //                 point.aum || "N/A"
+    //               }</div>
+    //             </div>
+
+    //             <div>
+    //               <div class="text-gray-800 font-medium mb-1">Risk Level</div>
+    //               <div class="font-semibold ${
+    //                 point.riskLevel?.toLowerCase().includes("high")
+    //                   ? "text-red-700"
+    //                   : point.riskLevel?.toLowerCase().includes("medium")
+    //                   ? "text-yellow-700"
+    //                   : point.riskLevel?.toLowerCase().includes("low")
+    //                   ? "text-green-700"
+    //                   : "text-gray-900"
+    //               }">${point.riskLevel || "N/A"}</div>
+    //             </div>
+    //           </div>
+
+    //           <div>
+    //             <div class="text-gray-800 font-medium mb-1">Location</div>
+    //             <div class="text-gray-900">${point.location || "N/A"}</div>
+    //           </div>
+
+    //           ${
+    //             point.notes
+    //               ? `
+    //             <div class="pt-2 mt-2" style="border-top: 1px solid rgba(229, 231, 235, 0.7);">
+    //               <div class="text-gray-800 font-medium mb-1">Notes</div>
+    //               <div class="text-gray-900 text-sm">${point.notes}</div>
+    //             </div>
+    //           `
+    //               : ""
+    //           }
+    //         </div>
+    //       </div>
+    //     `;
+    //   },
+    // },
     series: [
       {
         type: "networkgraph",
