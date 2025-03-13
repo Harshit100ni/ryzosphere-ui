@@ -9,17 +9,19 @@ const RyzosphereGraph: React.FC = () => {
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const [selectedState, setSelectedState] = useState<string>("All");
   const [selectedProduct, setSelectedProduct] = useState<string>("All");
+  const [selectType, setSelectType] = useState<string>("All");
+  const [selectedSubType, setSelectedSubType] = useState<string>("All");
   const {
     data: graphData,
     isError,
     isLoading,
     refetch,
-  } = useGraphData(selectedState, selectedProduct);
+  } = useGraphData(selectedState, selectedProduct, selectType, selectedSubType);
   useEffect(() => {
-    if (selectedState || selectedProduct) {
+    if (selectedState || selectedProduct || selectType || selectedSubType) {
       refetch();
     }
-  }, [selectedState, selectedProduct, refetch]);
+  }, [selectedState, selectedProduct, selectType, selectedSubType, refetch]);
 
   return (
     <>
@@ -55,6 +57,10 @@ const RyzosphereGraph: React.FC = () => {
                 selectedState,
                 selectedProduct,
                 setSelectedProduct,
+                selectType,
+                setSelectType,
+                selectedSubType,
+                setSelectedSubType,
               }}
             />
           </div>

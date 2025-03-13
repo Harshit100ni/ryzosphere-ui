@@ -32,6 +32,10 @@ interface iNetworkGraph {
   setSelectedState: React.Dispatch<React.SetStateAction<string>>;
   selectedProduct: string;
   setSelectedProduct: React.Dispatch<React.SetStateAction<string>>;
+  selectType: string;
+  setSelectType: React.Dispatch<React.SetStateAction<string>>;
+  selectedSubType: string;
+  setSelectedSubType: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const NetworkGraph: React.FC<iNetworkGraph> = (props) => {
@@ -46,6 +50,10 @@ const NetworkGraph: React.FC<iNetworkGraph> = (props) => {
     selectedState,
     selectedProduct,
     setSelectedProduct,
+    selectType,
+    setSelectType,
+    selectedSubType,
+    setSelectedSubType,
   } = props;
 
   const handleZoomIn = () => {
@@ -311,6 +319,8 @@ const NetworkGraph: React.FC<iNetworkGraph> = (props) => {
   };
 
   const stateList = ["CO", "ID", "WA"];
+  const orgTypes = ["Distributor", "Processor", "Producer"];
+
   const productTags = [
     "Grain",
     "Wheat",
@@ -371,6 +381,14 @@ const NetworkGraph: React.FC<iNetworkGraph> = (props) => {
     "Corn",
     "Vegetables (radish, cabbage, carrots, chicory, onion, coriander)",
     "Fats & Oils",
+  ];
+  const orgSubType = [
+    "Storage",
+    "Milling/Malting/Cleaning",
+    "Food Manufacturing",
+    "Farming",
+    "Brokerage",
+    "Equipment Manufacturing",
   ];
 
   if (isError) {
@@ -441,6 +459,40 @@ const NetworkGraph: React.FC<iNetworkGraph> = (props) => {
             >
               <option value="All">All</option>
               {productTags.map((product) => (
+                <option key={product} value={product}>
+                  {product}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="flex flex-col">
+            <label className="text-gray-700 font-medium mb-1">
+              Select Type
+            </label>
+            <select
+              value={selectType}
+              onChange={(e) => setSelectType(e.target.value)}
+              className="border-2 border-gray-300 rounded-md px-4 py-2 w-40 focus:ring-2 focus:ring-blue-400 outline-none"
+            >
+              <option value="All">All</option>
+              {orgTypes.map((product) => (
+                <option key={product} value={product}>
+                  {product}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="flex flex-col">
+            <label className="text-gray-700 font-medium mb-1">
+              Select Sub-Type
+            </label>
+            <select
+              value={selectedSubType}
+              onChange={(e) => setSelectedSubType(e.target.value)}
+              className="border-2 border-gray-300 rounded-md px-4 py-2 w-40 focus:ring-2 focus:ring-blue-400 outline-none"
+            >
+              <option value="All">All</option>
+              {orgSubType.map((product) => (
                 <option key={product} value={product}>
                   {product}
                 </option>
