@@ -25,16 +25,28 @@ export interface GraphData {
   links: Link[];
 }
 
-const fetchGraphData = async (): Promise<GraphData> => {
+const fetchGraphData = async (
+  selectedState?: string,
+  selectedProduct?: string
+): Promise<GraphData> => {
   const response = await axiosConfig.get<GraphData>(
-    API_ENDPOINTS.GET_KWL_GRAPH_DATA
+    API_ENDPOINTS.GET_KWL_GRAPH_DATA,
+    {
+      params: {
+        state: selectedState || undefined,
+        product: selectedProduct || undefined,
+      },
+    }
   );
 
   return response.data;
 };
 
-const useGraphData = () => {
-  return useQuery<GraphData, Error>(["graphData"], fetchGraphData);
+const useGraphData = (selectedState: string, selectedProduct: string) => {
+  return useQuery<GraphData, Error>(
+    ["graphData", selectedState, selectedProduct],
+    () => fetchGraphData(selectedState, selectedProduct)
+  );
 };
 
 export default useGraphData;

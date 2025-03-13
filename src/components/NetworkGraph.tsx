@@ -28,13 +28,25 @@ interface iNetworkGraph {
   graphData?: GraphData;
   isError: boolean;
   isLoading: boolean;
+  selectedState: string;
+  setSelectedState: React.Dispatch<React.SetStateAction<string>>;
+  selectedProduct: string;
+  setSelectedProduct: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const NetworkGraph: React.FC<iNetworkGraph> = (props) => {
   const [chartRef, setChartRef] = useState<Highcharts.Chart | null>(null);
   const [linkLength, setLinkLength] = useState<number>(60);
 
-  const { graphData, isError, isLoading } = props;
+  const {
+    graphData,
+    isError,
+    isLoading,
+    setSelectedState,
+    selectedState,
+    selectedProduct,
+    setSelectedProduct,
+  } = props;
 
   const handleZoomIn = () => {
     const newLinkLength = linkLength * 1.2;
@@ -298,60 +310,163 @@ const NetworkGraph: React.FC<iNetworkGraph> = (props) => {
     ],
   };
 
+  const stateList = ["CO", "ID", "WA"];
+  const productTags = [
+    "Grain",
+    "Wheat",
+    "Rye",
+    "Barley",
+    "Oats",
+    "Triticale",
+    "Spelt",
+    "Emmer",
+    "Einkorn",
+    "Heirloom/Landrace Wheat",
+    "Heirloom/Landrace Barley",
+    "Heirloom/Landrace Rye",
+    "Buckwheat",
+    "Quinoa",
+    "Proso Millet",
+    "Pearl Millet",
+    "Millets",
+    "Sorghum",
+    "Sorghum (White)",
+    "Sorghum (Red)",
+    "Rice",
+    "Legumes & Pulses",
+    "Chickpeas (Garbanzo - Desi & Kabuli)",
+    "Lentils",
+    "Peas (all kinds)",
+    "Beans (all general beans: great northerns, red, black, etc.)",
+    "Black beans",
+    "Cranberry beans",
+    "Dark red kidney beans",
+    "Great northern beans",
+    "Green baby lima beans",
+    "Light red kidney beans",
+    "Pink beans",
+    "Pinto beans",
+    "Small red beans",
+    "Small white beans",
+    "Oilseeds & Others",
+    "Canola",
+    "Soy",
+    "Sunflower",
+    "Safflower",
+    "Flax",
+    "Mustard",
+    "Rapeseed (not canola variety)",
+    "Forage & Fodder Crops",
+    "Hay",
+    "Hay (Timothy, Alfalfa, Clover, Fescue, Brome, etc.)",
+    "Grass",
+    "Other Crops",
+    "Hemp",
+    "Forbes (Kochia)",
+    "Wildflowers",
+    "Cotton",
+    "Potato",
+    "Sugar beets",
+    "Milo (grain sorghum)",
+    "Corn",
+    "Vegetables (radish, cabbage, carrots, chicory, onion, coriander)",
+    "Fats & Oils",
+  ];
+
   if (isError) {
     return (
       <div className="p-4 w-full">
         <div className="text-red-600 flex items-center gap-2 text-lg">
-          <span>Error loading graph: </span>
+          <span>Something went wrong. Please try again later.</span>
         </div>
-      </div>
-    );
-  }
-
-  if (isLoading) {
-    return (
-      <div className="p-4 flex items-center justify-center w-full">
-        <div className="animate-spin h-6 w-6 border-3 border-blue-500 rounded-full border-t-transparent"></div>
-        <span className="ml-2 text-lg">Loading graph data...</span>
       </div>
     );
   }
 
   return (
     <div className="w-full max-w-8xl mx-auto bg-[#eaeaea]">
-      <div className="flex gap-2 p-4">
-        <button
-          onClick={handleZoomIn}
-          className="flex items-center gap-1 px-4 py-2 border-2 border-gray-300 rounded-md hover:bg-gray-100 text-lg"
-        >
-          <ArrowsPointingInIcon className="w-6 h-6" />
-          <span>Zoom In</span>
-        </button>
-        <button
-          onClick={handleZoomOut}
-          className="flex items-center gap-1 px-4 py-2 border-2 border-gray-300 rounded-md hover:bg-gray-100 text-lg"
-        >
-          <ArrowsPointingOutIcon className="w-6 h-6" />
-          <span>Zoom Out</span>
-        </button>
-        <button
-          onClick={handleReset}
-          className="flex items-center gap-1 px-4 py-2 border-2 border-gray-300 rounded-md hover:bg-gray-100 text-lg"
-        >
-          <ArrowPathIcon className="w-6 h-6" />
-          <span>Reset View</span>
-        </button>
+      <div className="flex gap-2 p-4 justify-between">
+        <div className="flex gap-4 p-4 ">
+          <button
+            onClick={handleZoomIn}
+            className="flex items-center gap-1 px-1  border-2 border-gray-300 rounded-md hover:bg-gray-100 text-lg"
+          >
+            <ArrowsPointingInIcon className="w-6 h-6" />
+            <span>Zoom In</span>
+          </button>
+          <button
+            onClick={handleZoomOut}
+            className="flex items-center gap-1 px-4 py-2 border-2 border-gray-300 rounded-md hover:bg-gray-100 text-lg"
+          >
+            <ArrowsPointingOutIcon className="w-6 h-6" />
+            <span>Zoom Out</span>
+          </button>
+          <button
+            onClick={handleReset}
+            className="flex items-center gap-1 px-4 py-2 border-2 border-gray-300 rounded-md hover:bg-gray-100 text-lg"
+          >
+            <ArrowPathIcon className="w-6 h-6" />
+            <span>Reset View</span>
+          </button>
+        </div>
+        <div className="flex gap-4 p-4">
+          {/* State Selection */}
+          <div className="flex flex-col">
+            <label className="text-gray-700 font-medium mb-1">
+              Select State
+            </label>
+            <select
+              value={selectedState}
+              onChange={(e) => setSelectedState(e.target.value)}
+              className="border-2 border-gray-300 rounded-md px-4 py-2 w-40 focus:ring-2 focus:ring-blue-400 outline-none"
+            >
+              <option value="All">All</option>
+              {stateList.map((state) => (
+                <option key={state} value={state}>
+                  {state}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Product Selection */}
+          <div className="flex flex-col">
+            <label className="text-gray-700 font-medium mb-1">
+              Select Product
+            </label>
+            <select
+              value={selectedProduct}
+              onChange={(e) => setSelectedProduct(e.target.value)}
+              className="border-2 border-gray-300 rounded-md px-4 py-2 w-40 focus:ring-2 focus:ring-blue-400 outline-none"
+            >
+              <option value="All">All</option>
+              {productTags.map((product) => (
+                <option key={product} value={product}>
+                  {product}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
       </div>
       <div className="w-full h-full max-h-[60vh] bg-[#eaeaea] overflow-hidden relative">
-        <div className="absolute inset-0 bg-[#eaeaea]">
-          <HighchartsReact
-            highcharts={Highcharts}
-            options={options}
-            containerProps={{
-              className: "w-full h-full bg-[#eaeaea] p-4",
-            }}
-          />
-        </div>
+        {isLoading ? (
+          <div className="p-4 flex items-center justify-center w-full h-full">
+            <div className="animate-spin h-6 w-6 border-3 border-blue-500 rounded-full border-t-transparent"></div>
+            <span className="ml-2 text-lg">Loading graph data...</span>
+          </div>
+        ) : (
+          <div className="absolute inset-0 bg-[#eaeaea]">
+            <HighchartsReact
+              highcharts={Highcharts}
+              options={options}
+              containerProps={{
+                className: "w-full h-full bg-[#eaeaea] p-4",
+              }}
+            />
+          </div>
+        )}
+        {/* */}
       </div>
     </div>
   );
