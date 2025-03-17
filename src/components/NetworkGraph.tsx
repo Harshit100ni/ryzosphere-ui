@@ -120,13 +120,13 @@ const NetworkGraph: React.FC<iNetworkGraph> = (props) => {
       marker: {
         radius: 12,
         lineWidth: 2,
-        lineColor: "#0000FF",
+        lineColor: "#1D4A72",
         fillColor: "#FFFFFF",
       },
       color: "#FFFFFF",
       dataLabels: {
         style: {
-          fontSize: "12px",
+          fontSize: "16px",
           fontWeight: "bold",
         },
       },
@@ -290,25 +290,26 @@ const NetworkGraph: React.FC<iNetworkGraph> = (props) => {
         type: "networkgraph",
         data: getSeriesData(),
         nodes: getNodesData(),
+
         dataLabels: {
           enabled: true,
           linkFormat: "{point.relationship}",
-          allowOverlap: true,
+          allowOverlap: false,
           style: {
             textOutline: "none",
-            fontSize: "12px",
+            fontSize: "50px",
             fontWeight: "bold",
           },
         } as Highcharts.DataLabelsOptions,
         link: {
-          color: "#0000FF",
+          color: "#1D4A72",
           width: 2,
           dataLabels: {
             enabled: true,
             format: "{point.relationship}",
-            allowOverlap: true,
+            allowOverlap: false,
             style: {
-              fontSize: "12px",
+              fontSize: "50px",
               textOutline: "none",
               fontWeight: "bold",
             },
@@ -319,7 +320,6 @@ const NetworkGraph: React.FC<iNetworkGraph> = (props) => {
   };
 
   const stateList = ["CO", "ID", "WA"];
-  const orgTypes = ["Distributor", "Processor", "Producer"];
 
   const productTags = [
     "Grain",
@@ -382,6 +382,8 @@ const NetworkGraph: React.FC<iNetworkGraph> = (props) => {
     "Vegetables (radish, cabbage, carrots, chicory, onion, coriander)",
     "Fats & Oils",
   ];
+  const orgTypes = ["Distributor", "Processor", "Producer"];
+
   const orgSubType = [
     "Storage",
     "Milling/Malting/Cleaning",
@@ -407,24 +409,24 @@ const NetworkGraph: React.FC<iNetworkGraph> = (props) => {
         <div className="flex gap-4 p-4 ">
           <button
             onClick={handleZoomIn}
-            className="flex items-center gap-1 px-1  border-2 border-gray-300 rounded-md hover:bg-gray-100 text-lg"
+            className="flex items-center gap-1 px-4 py-2 border-2 border-gray-300 rounded-md hover:bg-gray-100 text-lg"
           >
             <ArrowsPointingInIcon className="w-6 h-6" />
-            <span>Zoom In</span>
+            {/* <span>Zoom In</span> */}
           </button>
           <button
             onClick={handleZoomOut}
             className="flex items-center gap-1 px-4 py-2 border-2 border-gray-300 rounded-md hover:bg-gray-100 text-lg"
           >
             <ArrowsPointingOutIcon className="w-6 h-6" />
-            <span>Zoom Out</span>
+            {/* <span>Zoom Out</span> */}
           </button>
           <button
             onClick={handleReset}
             className="flex items-center gap-1 px-4 py-2 border-2 border-gray-300 rounded-md hover:bg-gray-100 text-lg"
           >
             <ArrowPathIcon className="w-6 h-6" />
-            <span>Reset View</span>
+            {/* <span>Reset View</span> */}
           </button>
         </div>
         <div className="flex gap-4 p-4">
@@ -438,7 +440,7 @@ const NetworkGraph: React.FC<iNetworkGraph> = (props) => {
               onChange={(e) => setSelectedState(e.target.value)}
               className="border-2 border-gray-300 rounded-md px-4 py-2 w-40 focus:ring-2 focus:ring-blue-400 outline-none"
             >
-              <option value="All">All</option>
+              <option value="All">None (Default)</option>
               {stateList.map((state) => (
                 <option key={state} value={state}>
                   {state}
@@ -457,7 +459,7 @@ const NetworkGraph: React.FC<iNetworkGraph> = (props) => {
               onChange={(e) => setSelectedProduct(e.target.value)}
               className="border-2 border-gray-300 rounded-md px-4 py-2 w-40 focus:ring-2 focus:ring-blue-400 outline-none"
             >
-              <option value="All">All</option>
+              <option value="All">None (Default)</option>
               {productTags.map((product) => (
                 <option key={product} value={product}>
                   {product}
@@ -474,7 +476,7 @@ const NetworkGraph: React.FC<iNetworkGraph> = (props) => {
               onChange={(e) => setSelectType(e.target.value)}
               className="border-2 border-gray-300 rounded-md px-4 py-2 w-40 focus:ring-2 focus:ring-blue-400 outline-none"
             >
-              <option value="All">All</option>
+              <option value="All">None (Default)</option>
               {orgTypes.map((product) => (
                 <option key={product} value={product}>
                   {product}
@@ -491,7 +493,7 @@ const NetworkGraph: React.FC<iNetworkGraph> = (props) => {
               onChange={(e) => setSelectedSubType(e.target.value)}
               className="border-2 border-gray-300 rounded-md px-4 py-2 w-40 focus:ring-2 focus:ring-blue-400 outline-none"
             >
-              <option value="All">All</option>
+              <option value="All">None (Default)</option>
               {orgSubType.map((product) => (
                 <option key={product} value={product}>
                   {product}

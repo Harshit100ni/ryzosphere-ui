@@ -17,6 +17,7 @@ export const API_ENDPOINTS = {
   FO_MATCHED_WITH_COUNTRY_INTEREST:
     "/v1/signals/fo-matched-with-country-interest",
   TOP_SERVICE_PROVIDERS: "/v1/signals/top-service-providers",
+  GET_ORG_WITH_STATE_PRODUCT: "/v1/signals/get-orgs-by-state-product",
 };
 
 export default API_ENDPOINTS;

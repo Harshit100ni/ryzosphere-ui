@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useState } from "react";
+import React, { memo, useEffect, useRef, useState } from "react";
 import Header from "../components/header";
 import ChatBot from "../components/ChatBot";
 import NetworkGraph from "../components/NetworkGraph";
