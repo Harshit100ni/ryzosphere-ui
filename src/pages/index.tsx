@@ -33,7 +33,7 @@ const RyzosphereGraph: React.FC = () => {
         <Header />
 
         {/* Main Content */}
-        <main className="max-w-[1380px] mx-auto py-8 h-full">
+        <main className="max-w-full mx-40 py-8 h-full">
           <div className="flex justify-between items-center mb-12">
             <h1 className="text-[32px] text-[#1D4A72] font-normal font-['IBM Plex Sans']">
               Ryzosphere Network Analysis

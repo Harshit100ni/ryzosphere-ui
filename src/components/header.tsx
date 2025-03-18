@@ -26,8 +26,8 @@ const Header = () => {
   return (
     <>
       <SignIn {...{ isOpenModal, setIsOpenModal }} />
-      <header className="bg-[#background: var(--color-white-solid, #FFFFFF)] border-b-2 border-[#eadfd3]">
-        <div className="max-w-[1380px] h-[70px] mx-auto px-4 flex justify-between items-center">
+      <header className="bg-[#FFFFFF] border-b-2 border-[#eadfd3]">
+        <div className="max-w-full h-[70px] mx-40 flex justify-between items-center">
           {/* <div className="w-[98.19px] h-[29.96px] relative"> */}
           <h1 className="text-3xl font-normal text-[#1D4A72]">The Ryzophere</h1>
           {/* </div> */}
