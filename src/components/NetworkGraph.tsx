@@ -155,7 +155,7 @@ const NetworkGraph: React.FC<iNetworkGraph> = (props) => {
         color: "#FFFFFF",
         dataLabels: {
           style: {
-            fontSize: "20px",
+            fontSize: "15px",
             fontWeight: "normal",
           },
         },
@@ -361,7 +361,7 @@ const NetworkGraph: React.FC<iNetworkGraph> = (props) => {
 
   return (
     <div className="w-full max-w-8xl mx-auto bg-[#eaeaea]">
-      <div className="flex gap-2 p-4 justify-between">
+      <div className="flex gap-2 px-4 py-1 justify-between">
         <div className="flex gap-4 p-4 ">
           <button
             onClick={handleZoomIn}
