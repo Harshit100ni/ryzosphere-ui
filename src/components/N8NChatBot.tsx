@@ -47,7 +47,7 @@ const N8NChatBot = () => {
   };
 
   return (
-    <div className="w-full h-[105%] mr-4 bg-[#F1FAFF] p-6 rounded-md flex flex-col gap-5 shadow-lg">
+    <div className="w-full h-[100%] mr-4 bg-[#F1FAFF] p-6 rounded-md flex flex-col gap-5 shadow-lg">
       {/* Messages Container */}
       <div className="flex-1 overflow-y-auto border-b pb-4">
         {messages.map((msg, index) => (
