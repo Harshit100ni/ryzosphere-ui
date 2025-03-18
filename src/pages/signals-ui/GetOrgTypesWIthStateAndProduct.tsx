@@ -182,7 +182,7 @@ const GetOrgTypeWithStateAndProduct = () => {
     ${
       selectedProduct === "" || selectedState === ""
         ? "bg-gray-400 cursor-not-allowed"
-        : "bg-blue-600 hover:bg-blue-700"
+        : "bg-[#1D4A72]"
     }`}
           >
             Fetch Orgnization

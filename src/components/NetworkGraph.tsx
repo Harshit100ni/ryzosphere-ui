@@ -40,7 +40,7 @@ interface iNetworkGraph {
 
 const NetworkGraph: React.FC<iNetworkGraph> = (props) => {
   const [chartRef, setChartRef] = useState<Highcharts.Chart | null>(null);
-  const [linkLength, setLinkLength] = useState<number>(60);
+  const [linkLength, setLinkLength] = useState<number>(150);
 
   const {
     graphData,
@@ -81,7 +81,7 @@ const NetworkGraph: React.FC<iNetworkGraph> = (props) => {
   };
 
   const handleReset = () => {
-    const defaultLinkLength = 40;
+    const defaultLinkLength = 150;
     setLinkLength(defaultLinkLength);
     if (chartRef) {
       const series = chartRef.series[0] as any;
@@ -107,30 +107,43 @@ const NetworkGraph: React.FC<iNetworkGraph> = (props) => {
     if (!graphData?.nodes || !Array.isArray(graphData?.nodes)) {
       return [];
     }
-    return graphData.nodes.map((node: any) => ({
-      id: node.id,
-      name: node.name,
-      labels: node.labels,
-      type: node.type,
-      services: node.services,
-      aum: node.aum,
-      riskLevel: node.riskLevel,
-      location: node.location,
-      notes: node.notes,
-      marker: {
-        radius: 12,
-        lineWidth: 2,
-        lineColor: "#1D4A72",
-        fillColor: "#FFFFFF",
-      },
-      color: "#FFFFFF",
-      dataLabels: {
-        style: {
-          fontSize: "16px",
-          fontWeight: "bold",
+
+    return graphData.nodes.map((node: any) => {
+      // Define default radius
+      let nodeRadius = 15;
+
+      // Increase size for Product and State nodes
+      if (node.labels.includes("Product_Tags")) {
+        nodeRadius = 25; // Larger size for Product nodes
+      } else if (node.labels.includes("State")) {
+        nodeRadius = 22; // Slightly larger size for State nodes
+      }
+
+      return {
+        id: node.id,
+        name: node.name,
+        labels: node.labels,
+        type: node.type,
+        services: node.services,
+        aum: node.aum,
+        riskLevel: node.riskLevel,
+        location: node.location,
+        notes: node.notes,
+        marker: {
+          radius: nodeRadius, // Dynamic size based on type
+          lineWidth: 2,
+          lineColor: "#1D4A72",
+          fillColor: "#FFFFFF",
         },
-      },
-    }));
+        color: "#FFFFFF",
+        dataLabels: {
+          style: {
+            fontSize: "16px",
+            fontWeight: "bold",
+          },
+        },
+      };
+    });
   };
 
   const options: Highcharts.Options = {

@@ -4,6 +4,7 @@ import ChatBot from "../components/ChatBot";
 import NetworkGraph from "../components/NetworkGraph";
 import NodeRelationshipManager from "../components/NodeRelationshipManager";
 import useGraphData from "../query/useGraphData";
+import N8NChatBot from "../components/N8NChatBot";
 
 const RyzosphereGraph: React.FC = () => {
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
@@ -27,7 +28,7 @@ const RyzosphereGraph: React.FC = () => {
     <>
       <NodeRelationshipManager {...{ isOpenModal, setIsOpenModal, refetch }} />
 
-      <div className="min-h-screen bg-[#faf7f5]">
+      <div className="min-h-screen bg-[#background: var(--color-white-solid, #FFFFFF)]">
         {/* Header */}
         <Header />
 
@@ -47,7 +48,8 @@ const RyzosphereGraph: React.FC = () => {
 
           {/* Network Graph */}
           <div className="flex h-[70vh] min-h-[600px]">
-            <ChatBot />
+            {/* <ChatBot /> */}
+            <N8NChatBot />
             <NetworkGraph
               {...{
                 graphData,
