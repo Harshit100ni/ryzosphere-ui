@@ -18,6 +18,10 @@ export const API_ENDPOINTS = {
     "/v1/signals/fo-matched-with-country-interest",
   TOP_SERVICE_PROVIDERS: "/v1/signals/top-service-providers",
   GET_ORG_WITH_STATE_PRODUCT: "/v1/signals/get-orgs-by-state-product",
+  GET_PRODUCT_LIST: "/v1/product/get-product-tags",
+  GET_STATE_LIST: "/v1/state/get-states", // Endpoint for fetching states
+  GET_ORG_TYPE_LIST: "/v1/org-type/get-org-type", // Endpoint for fetching organization types
+  GET_ORG_SUB_TYPE_LIST: "/v1/org-sub-type/get-org-sub-type", // Endpoint for fetching organization sub-types
 };
 
 export default API_ENDPOINTS;

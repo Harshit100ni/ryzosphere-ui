@@ -9,12 +9,10 @@ import {
 } from "@heroicons/react/24/outline";
 import { GraphData } from "../query/useGraphData";
 import { legendData } from "../utils/legendData";
-import {
-  orgSubTypes,
-  orgTypes,
-  productTags,
-  stateList,
-} from "../utils/constants";
+import { useGetStateList } from "../query/useGetStatesList";
+import { useGetProductTags } from "../query/useGetProductTags";
+import { useGetOrgType } from "../query/useGetOrgtype";
+import { useGetOrgSubType } from "../query/useGetOrgSubType";
 
 HighchartsNetwork(Highcharts);
 
@@ -48,7 +46,10 @@ interface iNetworkGraph {
 const NetworkGraph: React.FC<iNetworkGraph> = (props) => {
   const [chartRef, setChartRef] = useState<Highcharts.Chart | null>(null);
   const [linkLength, setLinkLength] = useState<number>(150);
-
+  const { data: stateList } = useGetStateList();
+  const { data: productTags } = useGetProductTags();
+  const { data: orgTypes } = useGetOrgType();
+  const { data: orgSubTypes } = useGetOrgSubType();
   const {
     graphData,
     isError,
@@ -397,7 +398,7 @@ const NetworkGraph: React.FC<iNetworkGraph> = (props) => {
               className="border-2 border-gray-300 rounded-md px-4 py-2 w-40 focus:ring-2 focus:ring-blue-400 outline-none"
             >
               <option value="All">None (Default)</option>
-              {stateList.map((state) => (
+              {stateList?.map((state: string) => (
                 <option key={state} value={state}>
                   {state}
                 </option>
@@ -416,7 +417,7 @@ const NetworkGraph: React.FC<iNetworkGraph> = (props) => {
               className="border-2 border-gray-300 rounded-md px-4 py-2 w-40 focus:ring-2 focus:ring-blue-400 outline-none"
             >
               <option value="All">None (Default)</option>
-              {productTags.map((product) => (
+              {productTags?.map((product: string) => (
                 <option key={product} value={product}>
                   {product}
                 </option>
@@ -433,7 +434,7 @@ const NetworkGraph: React.FC<iNetworkGraph> = (props) => {
               className="border-2 border-gray-300 rounded-md px-4 py-2 w-40 focus:ring-2 focus:ring-blue-400 outline-none"
             >
               <option value="All">None (Default)</option>
-              {orgTypes.map((product) => (
+              {orgTypes?.map((product: string) => (
                 <option key={product} value={product}>
                   {product}
                 </option>
@@ -450,7 +451,7 @@ const NetworkGraph: React.FC<iNetworkGraph> = (props) => {
               className="border-2 border-gray-300 rounded-md px-4 py-2 w-40 focus:ring-2 focus:ring-blue-400 outline-none"
             >
               <option value="All">None (Default)</option>
-              {orgSubTypes.map((product) => (
+              {orgSubTypes?.map((product: string) => (
                 <option key={product} value={product}>
                   {product}
                 </option>

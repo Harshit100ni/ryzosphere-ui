@@ -1,8 +1,9 @@
-import { productTags, stateList } from "../../utils/constants";
 import axiosConfig from "../../lib/axiosConfig";
 import API_ENDPOINTS from "../../lib/endpoints";
 import { useState } from "react";
 import { FaIndustry, FaTruck, FaWarehouse, FaBuilding } from "react-icons/fa";
+import { useGetStateList } from "../../query/useGetStatesList";
+import { useGetProductTags } from "../../query/useGetProductTags";
 
 type Organization = {
   organizationID: string;
@@ -17,6 +18,9 @@ const GetOrgTypeWithStateAndProduct = () => {
   const [selectedProduct, setSelectedProduct] = useState("");
   const [orgData, setOrgData] = useState<Organization[]>([]); // ✅ Explicit Type
   const [loading, setLoading] = useState(false);
+
+  const { data: stateList, isLoading } = useGetStateList();
+  const { data: productTags } = useGetProductTags();
 
   const typeIcons: { [key: string]: JSX.Element } = {
     Distributor: <FaTruck className="text-blue-500 text-xl" />,
@@ -84,7 +88,7 @@ const GetOrgTypeWithStateAndProduct = () => {
             <option value="" disabled>
               Select State{" "}
             </option>
-            {stateList.map((state) => (
+            {stateList?.map((state: string) => (
               <option key={state} value={state}>
                 {state}
               </option>
@@ -102,7 +106,7 @@ const GetOrgTypeWithStateAndProduct = () => {
             <option value="" disabled>
               Select Product{" "}
             </option>
-            {productTags.map((product) => (
+            {productTags?.map((product: string) => (
               <option key={product} value={product}>
                 {product}
               </option>
