@@ -1,3 +1,4 @@
+import { productTags, stateList } from "../../utils/constants";
 import axiosConfig from "../../lib/axiosConfig";
 import API_ENDPOINTS from "../../lib/endpoints";
 import { useState } from "react";
@@ -17,70 +18,6 @@ const GetOrgTypeWithStateAndProduct = () => {
   const [orgData, setOrgData] = useState<Organization[]>([]); // ✅ Explicit Type
   const [loading, setLoading] = useState(false);
 
-  const stateList = ["CO", "ID", "WA"];
-
-  const productTags = [
-    "Grain",
-    "Wheat",
-    "Rye",
-    "Barley",
-    "Oats",
-    "Triticale",
-    "Spelt",
-    "Emmer",
-    "Einkorn",
-    "Heirloom/Landrace Wheat",
-    "Heirloom/Landrace Barley",
-    "Heirloom/Landrace Rye",
-    "Buckwheat",
-    "Quinoa",
-    "Proso Millet",
-    "Pearl Millet",
-    "Millets",
-    "Sorghum",
-    "Sorghum (White)",
-    "Sorghum (Red)",
-    "Rice",
-    "Legumes & Pulses",
-    "Chickpeas (Garbanzo - Desi & Kabuli)",
-    "Lentils",
-    "Peas (all kinds)",
-    "Beans (all general beans: great northerns, red, black, etc.)",
-    "Black beans",
-    "Cranberry beans",
-    "Dark red kidney beans",
-    "Great northern beans",
-    "Green baby lima beans",
-    "Light red kidney beans",
-    "Pink beans",
-    "Pinto beans",
-    "Small red beans",
-    "Small white beans",
-    "Oilseeds & Others",
-    "Canola",
-    "Soy",
-    "Sunflower",
-    "Safflower",
-    "Flax",
-    "Mustard",
-    "Rapeseed (not canola variety)",
-    "Forage & Fodder Crops",
-    "Hay",
-    "Hay (Timothy, Alfalfa, Clover, Fescue, Brome, etc.)",
-    "Grass",
-    "Other Crops",
-    "Hemp",
-    "Forbes (Kochia)",
-    "Wildflowers",
-    "Cotton",
-    "Potato",
-    "Sugar beets",
-    "Milo (grain sorghum)",
-    "Corn",
-    "Vegetables (radish, cabbage, carrots, chicory, onion, coriander)",
-    "Fats & Oils",
-  ];
-  // Type Icons
   const typeIcons: { [key: string]: JSX.Element } = {
     Distributor: <FaTruck className="text-blue-500 text-xl" />,
     Processor: <FaIndustry className="text-green-500 text-xl" />,
@@ -90,7 +27,6 @@ const GetOrgTypeWithStateAndProduct = () => {
 
   // Fetch Data
   const fetchData = async () => {
-    console.log("runn");
     setLoading(true);
     try {
       const response = await axiosConfig.get(
@@ -100,7 +36,6 @@ const GetOrgTypeWithStateAndProduct = () => {
         }
       );
 
-      console.log("response", response.data.data);
       setOrgData(response.data.data);
     } catch (error) {
       console.error("Error fetching data:", error);

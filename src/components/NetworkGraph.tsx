@@ -8,6 +8,13 @@ import {
   ArrowPathIcon,
 } from "@heroicons/react/24/outline";
 import { GraphData } from "../query/useGraphData";
+import { legendData } from "../utils/legendData";
+import {
+  orgSubTypes,
+  orgTypes,
+  productTags,
+  stateList,
+} from "../utils/constants";
 
 HighchartsNetwork(Highcharts);
 
@@ -111,12 +118,22 @@ const NetworkGraph: React.FC<iNetworkGraph> = (props) => {
     return graphData.nodes.map((node: any) => {
       // Define default radius
       let nodeRadius = 15;
-
+      let fill_color = "#FFFFFF";
       // Increase size for Product and State nodes
       if (node.labels.includes("Product_Tags")) {
         nodeRadius = 25; // Larger size for Product nodes
+        fill_color = "#E29650";
       } else if (node.labels.includes("State")) {
-        nodeRadius = 22; // Slightly larger size for State nodes
+        fill_color = "#699C6D";
+        nodeRadius = 25;
+      } else if (node.labels.includes("Organizations")) {
+        fill_color = "#3F8DA3";
+      } else if (node.labels.includes("Organization_Type")) {
+        fill_color = "#444444";
+      } else if (node.labels.includes("Organization_Sub_Type")) {
+        fill_color = "#978463";
+      } else if (node.labels.includes("Certificate")) {
+        fill_color = "#518976";
       }
 
       return {
@@ -133,13 +150,13 @@ const NetworkGraph: React.FC<iNetworkGraph> = (props) => {
           radius: nodeRadius, // Dynamic size based on type
           lineWidth: 2,
           lineColor: "#1D4A72",
-          fillColor: "#FFFFFF",
+          fillColor: fill_color,
         },
         color: "#FFFFFF",
         dataLabels: {
           style: {
-            fontSize: "16px",
-            fontWeight: "bold",
+            fontSize: "20px",
+            fontWeight: "normal",
           },
         },
       };
@@ -332,80 +349,6 @@ const NetworkGraph: React.FC<iNetworkGraph> = (props) => {
     ],
   };
 
-  const stateList = ["CO", "ID", "WA"];
-
-  const productTags = [
-    "Grain",
-    "Wheat",
-    "Rye",
-    "Barley",
-    "Oats",
-    "Triticale",
-    "Spelt",
-    "Emmer",
-    "Einkorn",
-    "Heirloom/Landrace Wheat",
-    "Heirloom/Landrace Barley",
-    "Heirloom/Landrace Rye",
-    "Buckwheat",
-    "Quinoa",
-    "Proso Millet",
-    "Pearl Millet",
-    "Millets",
-    "Sorghum",
-    "Sorghum (White)",
-    "Sorghum (Red)",
-    "Rice",
-    "Legumes & Pulses",
-    "Chickpeas (Garbanzo - Desi & Kabuli)",
-    "Lentils",
-    "Peas (all kinds)",
-    "Beans (all general beans: great northerns, red, black, etc.)",
-    "Black beans",
-    "Cranberry beans",
-    "Dark red kidney beans",
-    "Great northern beans",
-    "Green baby lima beans",
-    "Light red kidney beans",
-    "Pink beans",
-    "Pinto beans",
-    "Small red beans",
-    "Small white beans",
-    "Oilseeds & Others",
-    "Canola",
-    "Soy",
-    "Sunflower",
-    "Safflower",
-    "Flax",
-    "Mustard",
-    "Rapeseed (not canola variety)",
-    "Forage & Fodder Crops",
-    "Hay",
-    "Hay (Timothy, Alfalfa, Clover, Fescue, Brome, etc.)",
-    "Grass",
-    "Other Crops",
-    "Hemp",
-    "Forbes (Kochia)",
-    "Wildflowers",
-    "Cotton",
-    "Potato",
-    "Sugar beets",
-    "Milo (grain sorghum)",
-    "Corn",
-    "Vegetables (radish, cabbage, carrots, chicory, onion, coriander)",
-    "Fats & Oils",
-  ];
-  const orgTypes = ["Distributor", "Processor", "Producer"];
-
-  const orgSubType = [
-    "Storage",
-    "Milling/Malting/Cleaning",
-    "Food Manufacturing",
-    "Farming",
-    "Brokerage",
-    "Equipment Manufacturing",
-  ];
-
   if (isError) {
     return (
       <div className="p-4 w-full">
@@ -507,7 +450,7 @@ const NetworkGraph: React.FC<iNetworkGraph> = (props) => {
               className="border-2 border-gray-300 rounded-md px-4 py-2 w-40 focus:ring-2 focus:ring-blue-400 outline-none"
             >
               <option value="All">None (Default)</option>
-              {orgSubType.map((product) => (
+              {orgSubTypes.map((product) => (
                 <option key={product} value={product}>
                   {product}
                 </option>
@@ -515,6 +458,17 @@ const NetworkGraph: React.FC<iNetworkGraph> = (props) => {
             </select>
           </div>
         </div>
+      </div>
+      <div className="flex gap-4 justify-center">
+        {legendData?.map((item, index) => (
+          <div key={index} className="flex items-center gap-2">
+            <span
+              className="w-4 h-4 rounded-full inline-block"
+              style={{ backgroundColor: item.color }}
+            ></span>
+            <span className="text-base font-medium">{item.label}</span>
+          </div>
+        ))}
       </div>
       <div className="w-full h-full max-h-[60vh] bg-[#eaeaea] overflow-hidden relative">
         {isLoading ? (
