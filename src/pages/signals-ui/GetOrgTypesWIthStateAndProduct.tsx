@@ -39,7 +39,8 @@ const GetOrgTypeWithStateAndProduct = () => {
     Producer: <FaBuilding className="text-purple-500 text-xl" />,
   };
 
-  // Fetch Data
+  const [isDataFetched, setIsDataFetched] = useState(false); // Track data fetch status
+
   const fetchData = async () => {
     setLoading(true);
     try {
@@ -50,9 +51,11 @@ const GetOrgTypeWithStateAndProduct = () => {
         }
       );
       setOrgData(response.data.data);
+      setIsDataFetched(true); // Mark data as fetched
     } catch (error) {
       console.error("Error fetching data:", error);
-      setOrgData([]); // Handle errors gracefully
+      setOrgData([]);
+      setIsDataFetched(true); // Mark data as fetched even in case of error
     }
     setLoading(false);
   };
@@ -95,8 +98,8 @@ const GetOrgTypeWithStateAndProduct = () => {
             <p className="text-gray-600 text-sm mb-4">
               Select a State and Product Type to find organizations.
             </p>
-            <div className="flex gap-4 items-center justify-evenly flex-wrap mb-6">
-              <div className="relative w-40">
+            <div className="flex gap-x-4 items-center justify-evenly mb-6">
+              <div className="relative">
                 <select
                   value={selectedState}
                   onChange={(e) => setSelectedState(e.target.value)}
@@ -117,11 +120,12 @@ const GetOrgTypeWithStateAndProduct = () => {
                   className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 pointer-events-none"
                 />
               </div>
-              <div className="relative w-40">
+
+              <div className="relative">
                 <select
                   value={selectedProduct}
                   onChange={(e) => setSelectedProduct(e.target.value)}
-                  className="border border-gray-300  appearance-none rounded-md px-4 py-2 w-40 focus:ring-2 focus:ring-blue-400 outline-none"
+                  className="border border-gray-300 appearance-none rounded-md px-4 py-2 w-40 focus:ring-2 focus:ring-blue-400 outline-none"
                 >
                   <option value="" disabled>
                     Select Product
@@ -138,16 +142,17 @@ const GetOrgTypeWithStateAndProduct = () => {
                   className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 pointer-events-none"
                 />
               </div>
+
               <button
                 disabled={!selectedState || !selectedProduct}
                 onClick={fetchData}
-                className={`px-6 py-2 text-white rounded-lg ${
+                className={`px-4 py-2 text-white rounded-lg ${
                   !selectedState || !selectedProduct
                     ? "bg-gray-400 cursor-not-allowed"
                     : "bg-[#1D4A72]"
                 }`}
               >
-                Fetch Organizations
+                Submit
               </button>
             </div>
           </div>
@@ -161,40 +166,50 @@ const GetOrgTypeWithStateAndProduct = () => {
             <p className="mt-4 t text-gray-600">Loading...</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full h-full pl-4 ">
-            {Object.keys(groupedData).length > 0 ? (
-              Object.keys(groupedData).map((type) => (
-                <div
-                  key={type}
-                  className="bg-gray-100 p-4 rounded-lg shadow-md"
-                >
-                  <div className="flex items-center justify-between gap-2 mb-3">
-                    <h3 className="text-lg font-semibold flex items-center gap-2">
-                      {" "}
-                      {typeIcons[type] || "🏭"} {type}
-                    </h3>
-                    <div>
-                      <span className="text-gray-600">{selectedProduct}</span>
+          <>
+            {/* {showCard && Object.keys(groupedData).length <= 0 && (
+              <p>NO Result found</p>
+            )} */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full h-full pl-4 ">
+              {Object.keys(groupedData).length > 0 ? (
+                Object.keys(groupedData).map((type) => (
+                  <div
+                    key={type}
+                    className="bg-gray-100 p-4 rounded-lg shadow-md"
+                  >
+                    <div className="flex items-center justify-between gap-2 mb-3">
+                      <h3 className="text-lg font-semibold flex items-center gap-2">
+                        {" "}
+                        {typeIcons[type] || "🏭"} {type}
+                      </h3>
+                      <div>
+                        <span className="text-gray-600">{selectedProduct}</span>
+                      </div>
                     </div>
+                    <ul className="list-none space-y-2">
+                      {groupedData[type].map((org, index) => (
+                        <li
+                          key={index}
+                          className="p-3 bg-white shadow-md rounded-md flex justify-between items-center"
+                        >
+                          <span className="font-medium">
+                            {org.organizationID}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
-                  <ul className="list-none space-y-2">
-                    {groupedData[type].map((org, index) => (
-                      <li
-                        key={index}
-                        className="p-3 bg-white shadow-md rounded-md flex justify-between items-center"
-                      >
-                        <span className="font-medium">
-                          {org.organizationID}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))
-            ) : (
-              <p className="text-gray-500"></p>
-            )}
-          </div>
+                ))
+              ) : (
+                <p className="text-gray-500"></p>
+              )}
+              {isDataFetched && Object.keys(groupedData).length === 0 && (
+                <p className="text-gray-600 text-center flex items-center">
+                  No Results Found
+                </p>
+              )}
+            </div>
+          </>
         )}
       </div>
     </div>

@@ -391,7 +391,7 @@ const NetworkGraph: React.FC<iNetworkGraph> = (props) => {
           </div>
           <div className="flex gap-4 p-4">
             {/* State Selection */}
-            <div className="relative w-40">
+            <div className="relative max-w-40">
               <select
                 value={selectedState}
                 onChange={(e) => setSelectedState(e.target.value)}
@@ -415,7 +415,7 @@ const NetworkGraph: React.FC<iNetworkGraph> = (props) => {
             </div>
 
             {/* Product Selection */}
-            <div className="relative w-40">
+            <div className="relative max-w-40">
               <select
                 value={selectedProduct}
                 onChange={(e) => setSelectedProduct(e.target.value)}
@@ -437,7 +437,7 @@ const NetworkGraph: React.FC<iNetworkGraph> = (props) => {
                 className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 pointer-events-none"
               />
             </div>
-            <div className="relative w-40">
+            <div className="relative max-w-40">
               <select
                 value={selectType}
                 onChange={(e) => setSelectType(e.target.value)}
@@ -459,7 +459,7 @@ const NetworkGraph: React.FC<iNetworkGraph> = (props) => {
                 className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 pointer-events-none"
               />
             </div>
-            <div className="relative w-40">
+            <div className="relative max-w-40">
               <select
                 value={selectedSubType}
                 onChange={(e) => setSelectedSubType(e.target.value)}
