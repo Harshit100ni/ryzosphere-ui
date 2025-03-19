@@ -8,11 +8,12 @@ import {
   ArrowPathIcon,
 } from "@heroicons/react/24/outline";
 import { GraphData } from "../query/useGraphData";
-import { legendData } from "../utils/legendData";
 import { useGetStateList } from "../query/useGetStatesList";
 import { useGetProductTags } from "../query/useGetProductTags";
 import { useGetOrgType } from "../query/useGetOrgtype";
 import { useGetOrgSubType } from "../query/useGetOrgSubType";
+import { dropdownAerrow } from "../assets";
+import LegendBar from "./LegendBar";
 
 HighchartsNetwork(Highcharts);
 
@@ -123,18 +124,18 @@ const NetworkGraph: React.FC<iNetworkGraph> = (props) => {
       // Increase size for Product and State nodes
       if (node.labels.includes("Product_Tags")) {
         nodeRadius = 25; // Larger size for Product nodes
-        fill_color = "#E29650";
+        fill_color = "#3F8DA3";
       } else if (node.labels.includes("State")) {
-        fill_color = "#699C6D";
+        fill_color = "#1D4A72";
         nodeRadius = 25;
       } else if (node.labels.includes("Organizations")) {
-        fill_color = "#3F8DA3";
+        fill_color = "#F3BC4A";
       } else if (node.labels.includes("Organization_Type")) {
-        fill_color = "#444444";
+        fill_color = "#E29650";
       } else if (node.labels.includes("Organization_Sub_Type")) {
-        fill_color = "#978463";
+        fill_color = "#699C6D";
       } else if (node.labels.includes("Certificate")) {
-        fill_color = "#518976";
+        fill_color = "#444444";
       }
 
       return {
@@ -150,7 +151,7 @@ const NetworkGraph: React.FC<iNetworkGraph> = (props) => {
         marker: {
           radius: nodeRadius, // Dynamic size based on type
           lineWidth: 2,
-          lineColor: "#1D4A72",
+          lineColor: fill_color,
           fillColor: fill_color,
         },
         color: "#FFFFFF",
@@ -173,9 +174,9 @@ const NetworkGraph: React.FC<iNetworkGraph> = (props) => {
     chart: {
       type: "networkgraph",
       height: "100%",
-      backgroundColor: "#eaeaea",
+      backgroundColor: "#ffffff",
       spacing: [20, 20, 20, 20],
-      plotBackgroundColor: "#eaeaea",
+      plotBackgroundColor: "#ffffff",
       margin: [0, 0, 0, 0],
       animation: {
         duration: 1000,
@@ -333,8 +334,8 @@ const NetworkGraph: React.FC<iNetworkGraph> = (props) => {
           },
         } as Highcharts.DataLabelsOptions,
         link: {
-          color: "#1D4A72",
-          width: 2,
+          color: "#64646480",
+          width: 1,
           dataLabels: {
             enabled: true,
             format: "{point.relationship}",
@@ -361,136 +362,156 @@ const NetworkGraph: React.FC<iNetworkGraph> = (props) => {
   }
 
   return (
-    <div className="w-full max-w-8xl mx-auto bg-[#eaeaea]">
-      <div className="flex gap-2 px-4 py-1 justify-between">
-        <div className="flex gap-4 p-4 ">
-          <button
-            onClick={handleZoomIn}
-            className="flex items-center gap-1 px-4 py-2 border-2 border-gray-300 rounded-md hover:bg-gray-100 text-lg"
-          >
-            <ArrowsPointingInIcon className="w-6 h-6" />
-            {/* <span>Zoom In</span> */}
-          </button>
-          <button
-            onClick={handleZoomOut}
-            className="flex items-center gap-1 px-4 py-2 border-2 border-gray-300 rounded-md hover:bg-gray-100 text-lg"
-          >
-            <ArrowsPointingOutIcon className="w-6 h-6" />
-            {/* <span>Zoom Out</span> */}
-          </button>
-          <button
-            onClick={handleReset}
-            className="flex items-center gap-1 px-4 py-2 border-2 border-gray-300 rounded-md hover:bg-gray-100 text-lg"
-          >
-            <ArrowPathIcon className="w-6 h-6" />
-            {/* <span>Reset View</span> */}
-          </button>
-        </div>
-        <div className="flex gap-4 p-4">
-          {/* State Selection */}
-          <div className="flex flex-col">
-            <label className="text-gray-700 font-medium mb-1">
-              Select State
-            </label>
-            <select
-              value={selectedState}
-              onChange={(e) => setSelectedState(e.target.value)}
-              className="border-2 border-gray-300 rounded-md px-4 py-2 w-40 focus:ring-2 focus:ring-blue-400 outline-none"
+    <>
+      <div className="flex flex-col col-span-8 ">
+        <div className="flex gap-2 w-full flex-wrap px-4 py-1 justify-between">
+          <div className="flex gap-2 p-4 ">
+            <button
+              onClick={handleZoomIn}
+              className="flex items-center gap-1 px-2 py-2 rounded-md hover:bg-gray-100 text-lg"
             >
-              <option value="All">None (Default)</option>
-              {stateList?.map((state: string) => (
-                <option key={state} value={state}>
-                  {state}
-                </option>
-              ))}
-            </select>
+              <ArrowsPointingInIcon className="w-6 h-6" />
+              {/* <span>Zoom In</span> */}
+            </button>
+            <button
+              onClick={handleZoomOut}
+              className="flex items-center gap-1 px-2 py-2 rounded-md hover:bg-gray-100 text-lg"
+            >
+              <ArrowsPointingOutIcon className="w-6 h-6" />
+              {/* <span>Zoom Out</span> */}
+            </button>
+            <button
+              onClick={handleReset}
+              className="flex items-center gap-1 px-2 py-2 rounded-md hover:bg-gray-100 text-lg"
+            >
+              <ArrowPathIcon className="w-6 h-6" />
+              {/* <span>Reset View</span> */}
+            </button>
           </div>
+          <div className="flex gap-4 p-4">
+            {/* State Selection */}
+            <div className="relative w-40">
+              <select
+                value={selectedState}
+                onChange={(e) => setSelectedState(e.target.value)}
+                className="border border-gray-300 appearance-none bg-[#ffffff] rounded-full px-4 py-2 w-40 focus:ring-2 focus:[#1D4A72] outline-none"
+              >
+                <option value="All" disabled>
+                  State
+                </option>
+                <option value="All">None (Default)</option>
+                {stateList?.map((state: string) => (
+                  <option key={state} value={state}>
+                    {state}
+                  </option>
+                ))}
+              </select>
+              <img
+                src={dropdownAerrow}
+                alt="Dropdown Arrow"
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 pointer-events-none"
+              />
+            </div>
 
-          {/* Product Selection */}
-          <div className="flex flex-col">
-            <label className="text-gray-700 font-medium mb-1">
-              Select Product
-            </label>
-            <select
-              value={selectedProduct}
-              onChange={(e) => setSelectedProduct(e.target.value)}
-              className="border-2 border-gray-300 rounded-md px-4 py-2 w-40 focus:ring-2 focus:ring-blue-400 outline-none"
-            >
-              <option value="All">None (Default)</option>
-              {productTags?.map((product: string) => (
-                <option key={product} value={product}>
-                  {product}
+            {/* Product Selection */}
+            <div className="relative w-40">
+              <select
+                value={selectedProduct}
+                onChange={(e) => setSelectedProduct(e.target.value)}
+                className="border border-gray-300 appearance-none bg-[#ffffff] rounded-full px-4 py-2 w-40 focus:ring-2 focus:[#1D4A72] outline-none"
+              >
+                <option value="All" disabled>
+                  Product
                 </option>
-              ))}
-            </select>
+                <option value="All">None (Default)</option>
+                {productTags?.map((product: string) => (
+                  <option key={product} value={product}>
+                    {product}
+                  </option>
+                ))}
+              </select>
+              <img
+                src={dropdownAerrow}
+                alt="Dropdown Arrow"
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 pointer-events-none"
+              />
+            </div>
+            <div className="relative w-40">
+              <select
+                value={selectType}
+                onChange={(e) => setSelectType(e.target.value)}
+                className="border  border-gray-300  appearance-none bg-[#ffffff] rounded-full px-4 py-2 w-40 focus:ring-2 focus:ring-blue-400 outline-none"
+              >
+                <option value="All" disabled>
+                  Type
+                </option>
+                <option value="All">None (Default)</option>
+                {orgTypes?.map((product: string) => (
+                  <option key={product} value={product}>
+                    {product}
+                  </option>
+                ))}
+              </select>
+              <img
+                src={dropdownAerrow}
+                alt="Dropdown Arrow"
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 pointer-events-none"
+              />
+            </div>
+            <div className="relative w-40">
+              <select
+                value={selectedSubType}
+                onChange={(e) => setSelectedSubType(e.target.value)}
+                className="border border-gray-300 appearance-none bg-[#ffffff] rounded-full px-4 py-2 w-full pr-10 focus:ring-2 focus:ring-blue-400 outline-none"
+              >
+                <option value="All" disabled>
+                  Sub Type
+                </option>
+                <option value="All">None (Default)</option>
+                {orgSubTypes?.map((product: string) => (
+                  <option key={product} value={product}>
+                    {product}
+                  </option>
+                ))}
+              </select>
+
+              {/* Custom Image as Dropdown Arrow */}
+              <img
+                src={dropdownAerrow}
+                alt="Dropdown Arrow"
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 pointer-events-none"
+              />
+            </div>
           </div>
-          <div className="flex flex-col">
-            <label className="text-gray-700 font-medium mb-1">
-              Select Type
-            </label>
-            <select
-              value={selectType}
-              onChange={(e) => setSelectType(e.target.value)}
-              className="border-2 border-gray-300 rounded-md px-4 py-2 w-40 focus:ring-2 focus:ring-blue-400 outline-none"
-            >
-              <option value="All">None (Default)</option>
-              {orgTypes?.map((product: string) => (
-                <option key={product} value={product}>
-                  {product}
-                </option>
-              ))}
-            </select>
+        </div>
+        <div className="grid grid-cols-12 h-full">
+          <div className="w-full col-span-10 mx-auto bg-[#ffffff]">
+            <div className="w-full h-full  bg-[#ffffff] overflow-hidden relative">
+              {isLoading ? (
+                <div className="p-4 flex items-center justify-center w-full h-full">
+                  <div className="animate-spin h-6 w-6 border-3 border-blue-500 rounded-full border-t-transparent"></div>
+                  <span className="ml-2 text-lg">Loading graph data...</span>
+                </div>
+              ) : (
+                <div className="absolute inset-0 bg-[#ffffff]">
+                  <HighchartsReact
+                    highcharts={Highcharts}
+                    options={options}
+                    containerProps={{
+                      className: "w-full h-full bg-#3F8DA3 p-4",
+                    }}
+                  />
+                </div>
+              )}
+              {/* */}
+            </div>
           </div>
-          <div className="flex flex-col">
-            <label className="text-gray-700 font-medium mb-1">
-              Select Sub-Type
-            </label>
-            <select
-              value={selectedSubType}
-              onChange={(e) => setSelectedSubType(e.target.value)}
-              className="border-2 border-gray-300 rounded-md px-4 py-2 w-40 focus:ring-2 focus:ring-blue-400 outline-none"
-            >
-              <option value="All">None (Default)</option>
-              {orgSubTypes?.map((product: string) => (
-                <option key={product} value={product}>
-                  {product}
-                </option>
-              ))}
-            </select>
+          <div className="col-span-2">
+            <LegendBar />
           </div>
         </div>
       </div>
-      <div className="flex gap-4 justify-center">
-        {legendData?.map((item, index) => (
-          <div key={index} className="flex items-center gap-2">
-            <span
-              className="w-4 h-4 rounded-full inline-block"
-              style={{ backgroundColor: item.color }}
-            ></span>
-            <span className="text-base font-medium">{item.label}</span>
-          </div>
-        ))}
-      </div>
-      <div className="w-full h-full max-h-[60vh] bg-[#eaeaea] overflow-hidden relative">
-        {isLoading ? (
-          <div className="p-4 flex items-center justify-center w-full h-full">
-            <div className="animate-spin h-6 w-6 border-3 border-blue-500 rounded-full border-t-transparent"></div>
-            <span className="ml-2 text-lg">Loading graph data...</span>
-          </div>
-        ) : (
-          <div className="absolute inset-0 bg-[#eaeaea]">
-            <HighchartsReact
-              highcharts={Highcharts}
-              options={options}
-              containerProps={{
-                className: "w-full h-full bg-[#eaeaea] p-4",
-              }}
-            />
-          </div>
-        )}
-        {/* */}
-      </div>
-    </div>
+    </>
   );
 };
 

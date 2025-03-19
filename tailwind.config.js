@@ -4,6 +4,17 @@ export default {
   theme: {
     extend: {
       colors: {
+        "m3-sys-dark-surface-container-highest": "#36343b",
+        "andsimpleco-black": "#030303",
+        white: "#fff",
+        darkslategray: "#444",
+        midnightblue: "#0b205c",
+        steelblue: "#1d4a72",
+        cadetblue: "#3f8da3",
+        darkseagreen: "#699c6d",
+        sandybrown: "#e29650",
+        goldenrod: "#f3bc4a",
+
         primary: "#1D4A72",
         "primary-light": "#F1FAFF",
         background: "hsl(var(--background))",

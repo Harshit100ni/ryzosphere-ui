@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { ArrowRight, User, Bot } from "lucide-react";
+import { person, stars } from "../assets";
 
 const N8NChatBot = () => {
   const [messages, setMessages] = useState([
@@ -49,16 +50,21 @@ const N8NChatBot = () => {
   return (
     <div className="w-full h-[100%] mr-4 bg-[#F1FAFF] p-6 rounded-md flex flex-col gap-5 shadow-lg">
       {/* Messages Container */}
-      <div className="flex-1 overflow-y-auto border-b pb-4">
+      <div className="flex-1 overflow-y-auto pb-4">
         {messages.map((msg, index) => (
           <div
             key={index}
-            className={`flex items-start mb-3 ${
+            className={`flex gap-[10px] mb-3 items-center ${
               msg.sender === "user" ? "justify-end" : "justify-start"
             }`}
           >
-            {msg.sender === "bot" && <Bot className="mr-2 text-gray-600" />}
+            {msg.sender === "bot" && (
+              <img src={stars} className="text-center" />
+            )}
             <div
+              style={{
+                borderRadius: "10px",
+              }}
               className={`p-3 rounded-lg max-w-[75%] ${
                 msg.sender === "bot"
                   ? "bg-gray-200 text-gray-900"
@@ -67,7 +73,9 @@ const N8NChatBot = () => {
             >
               {msg.text}
             </div>
-            {msg.sender === "user" && <User className="ml-2 text-[#1D4A72]" />}
+            {msg.sender === "user" && (
+              <img src={person} className="text-center" />
+            )}
           </div>
         ))}
 
@@ -81,23 +89,28 @@ const N8NChatBot = () => {
       </div>
 
       {/* Input Box */}
-      <div className="flex items-center border-t pt-3">
+      <div className="flex items-center border-t p-2 px-4 bg-white rounded-full shadow-md w-full">
+        {/* Input Field */}
         <input
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          className="flex-1 p-3 border rounded-l"
-          placeholder="Type a message..."
+          className="flex-1 p-3 rounded-full outline-none w-full"
+          placeholder="Ask Questions..."
         />
-        <button
-          onClick={sendMessage}
-          disabled={!input.trim()}
-          className={`ml-2 p-3 rounded-full ${
-            input.trim() ? "bg-[#1D4A72] text-white" : "bg-gray-400"
-          }`}
-        >
-          <ArrowRight size={20} />
-        </button>
+
+        {/* Button with Arrow */}
+        <div className="relative">
+          <button
+            onClick={sendMessage}
+            disabled={!input.trim()}
+            className={`ml-2 py-3 px-6 rounded-3xl flex items-center justify-center ${
+              input.trim() ? "bg-[#1D4A72] text-white" : "bg-gray-400"
+            }`}
+          >
+            <ArrowRight size={20} />
+          </button>
+        </div>
       </div>
     </div>
   );

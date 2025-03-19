@@ -22,6 +22,7 @@ export const API_ENDPOINTS = {
   GET_STATE_LIST: "/v1/state/get-states", // Endpoint for fetching states
   GET_ORG_TYPE_LIST: "/v1/org-type/get-org-type", // Endpoint for fetching organization types
   GET_ORG_SUB_TYPE_LIST: "/v1/org-sub-type/get-org-sub-type", // Endpoint for fetching organization sub-types
+  GET_NODE_COUNT: "/v1/node-type-counts",
 };
 
 export default API_ENDPOINTS;
