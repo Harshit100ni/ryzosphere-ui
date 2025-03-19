@@ -20,6 +20,9 @@ const N8NChatBot = () => {
     setInput("");
     setLoading(true);
 
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 3 * 60 * 1000); // 2-minute timeout
+
     try {
       const response = await fetch(
         "https://creativeglu.app.n8n.cloud/webhook/7159b04d-69bf-4972-980a-4bc268a2f708/chat",
@@ -27,8 +30,11 @@ const N8NChatBot = () => {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ query: input }),
+          signal: controller.signal, // Attach the signal for timeout
         }
       );
+
+      clearTimeout(timeoutId); // Clear timeout if request succeeds
 
       const data = await response.json();
       const botResponse = {
@@ -37,11 +43,12 @@ const N8NChatBot = () => {
       };
 
       setMessages((prev) => [...prev, botResponse]);
-    } catch (error) {
-      setMessages((prev) => [
-        ...prev,
-        { text: "Error reaching chatbot.", sender: "bot" },
-      ]);
+    } catch (error: any) {
+      const errorMessage =
+        error.name === "AbortError"
+          ? "Request timed out. Please try again."
+          : "Error reaching chatbot.";
+      setMessages((prev) => [...prev, { text: errorMessage, sender: "bot" }]);
     } finally {
       setLoading(false);
     }
@@ -50,7 +57,7 @@ const N8NChatBot = () => {
   return (
     <div className="w-full h-[100%] mr-4 bg-[#F1FAFF] p-6 rounded-md flex flex-col gap-5 shadow-lg">
       {/* Messages Container */}
-      <div className="flex-1 overflow-y-auto pb-4">
+      <div className="flex-1 overflow-y-auto max-h-[80vh] pb-4">
         {messages.map((msg, index) => (
           <div
             key={index}
