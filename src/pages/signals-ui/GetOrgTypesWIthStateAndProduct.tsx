@@ -4,6 +4,8 @@ import { useState } from "react";
 import { FaIndustry, FaTruck, FaWarehouse, FaBuilding } from "react-icons/fa";
 import { useGetStateList } from "../../query/useGetStatesList";
 import { useGetProductTags } from "../../query/useGetProductTags";
+import { ChevronDown, ChevronUp } from "lucide-react";
+import { dropdownAerrow } from "../../assets";
 
 type Organization = {
   organizationID: string;
@@ -13,13 +15,21 @@ type Organization = {
   product: string;
 };
 
+const signals = [
+  "Get Orgnization With Same and Product",
+  // "Market Expansion Potential",
+  // "Supplier Distribution Analysis",
+];
+
 const GetOrgTypeWithStateAndProduct = () => {
+  const [selectedSignal, setSelectedSignal] = useState(signals[0]);
   const [selectedState, setSelectedState] = useState("");
   const [selectedProduct, setSelectedProduct] = useState("");
-  const [orgData, setOrgData] = useState<Organization[]>([]); // ✅ Explicit Type
+  const [orgData, setOrgData] = useState<Organization[]>([]);
   const [loading, setLoading] = useState(false);
+  const [showCard, setShowCard] = useState(false);
 
-  const { data: stateList, isLoading } = useGetStateList();
+  const { data: stateList } = useGetStateList();
   const { data: productTags } = useGetProductTags();
 
   const typeIcons: { [key: string]: JSX.Element } = {
@@ -39,7 +49,6 @@ const GetOrgTypeWithStateAndProduct = () => {
           params: { state: selectedState, product: selectedProduct },
         }
       );
-
       setOrgData(response.data.data);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -48,116 +57,144 @@ const GetOrgTypeWithStateAndProduct = () => {
     setLoading(false);
   };
 
-  // Group Data by Organization Type (Ensure orgData is an array)
+  // Group Data by Organization Type
   const groupedData = (Array.isArray(orgData) ? orgData : []).reduce(
     (acc: Record<string, Organization[]>, org) => {
-      if (!acc[org.organizationType]) {
-        acc[org.organizationType] = [];
-      }
+      if (!acc[org.organizationType]) acc[org.organizationType] = [];
       acc[org.organizationType].push(org);
       return acc;
     },
     {}
   );
 
-  console.log("groupedData", groupedData);
-
   return (
-    <div className="p-6 bg-white shadow-md rounded-lg">
-      {/* <h1 className="text-3xl font-semibold mb-6 ">
-        Collaborative Network Strength
-      </h1> */}
-      <h1 className="text-3xl font-semibold mb-6">
-        🏢 Organization Type Finder
-      </h1>
-      <p className="text-gray-600 text-lg mb-4">
-        Select a State and Product Type to get Organizations with their
-        respective types.
-      </p>
+    <div className="flex bg-white rounded-lg overflow-hidden">
+      {/* Left Section - Signal List */}
 
-      {/* Selection Inputs */}
-      <div className="flex gap-4 flex-wrap">
-        {/* State Selection */}
-        <div className="flex flex-col">
-          {/* <label className="text-gray-700 font-medium mb-1">Select State</label> */}
-          <select
-            value={selectedState}
-            onChange={(e) => setSelectedState(e.target.value)}
-            className="border-2 border-gray-300 rounded-md px-4 py-2 w-40 focus:ring-2 focus:ring-blue-400 outline-none"
-          >
-            <option value="" disabled>
-              Select State{" "}
-            </option>
-            {stateList?.map((state: string) => (
-              <option key={state} value={state}>
-                {state}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        {/* Product Selection */}
-        <div className="flex flex-col">
-          <select
-            value={selectedProduct}
-            onChange={(e) => setSelectedProduct(e.target.value)}
-            className="border-2 border-gray-300 rounded-md px-4 py-2 w-40 focus:ring-2 focus:ring-blue-400 outline-none"
-          >
-            <option value="" disabled>
-              Select Product{" "}
-            </option>
-            {productTags?.map((product: string) => (
-              <option key={product} value={product}>
-                {product}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div>
-          <button
-            disabled={selectedProduct === "" || selectedState === ""}
-            onClick={fetchData}
-            className={`px-6 py-2 text-white rounded-lg
-    ${
-      selectedProduct === "" || selectedState === ""
-        ? "bg-gray-400 cursor-not-allowed"
-        : "bg-[#1D4A72]"
-    }`}
-          >
-            Fetch Orgnization
-          </button>
+      <div className="w-3/6 pr-2 border-r">
+        <ul className="space-y-2">
+          {signals.map((signal) => (
+            <li
+              key={signal}
+              onClick={() => setShowCard(!showCard)}
+              className="cursor-pointer p-3 w-full rounded-lg bg-[#F7F7F7] text-[#4C4D4F]"
+            >
+              <div className="flex justify-between items-center">
+                {signal}
+                {showCard ? <ChevronUp /> : <ChevronDown />}
+              </div>
+            </li>
+          ))}
+        </ul>
+        <div
+          className={`transition-all duration-300 shadow-lg overflow-hidden ${
+            showCard ? "h-auto" : "h-0"
+          }`}
+        >
+          <div className="w-full p-2 shadow-lg border-2 border-gray-100 mt-3">
+            <p className="text-gray-600 text-sm mb-4">
+              Select a State and Product Type to find organizations.
+            </p>
+            <div className="flex gap-4 items-center justify-evenly flex-wrap mb-6">
+              <div className="relative w-40">
+                <select
+                  value={selectedState}
+                  onChange={(e) => setSelectedState(e.target.value)}
+                  className="border border-gray-300 appearance-none rounded-md px-4 py-2 w-40 focus:ring-2 focus:ring-blue-400 outline-none"
+                >
+                  <option value="" disabled>
+                    Select State
+                  </option>
+                  {stateList?.map((state: string) => (
+                    <option key={state} value={state}>
+                      {state}
+                    </option>
+                  ))}
+                </select>
+                <img
+                  src={dropdownAerrow}
+                  alt="Dropdown Arrow"
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 pointer-events-none"
+                />
+              </div>
+              <div className="relative w-40">
+                <select
+                  value={selectedProduct}
+                  onChange={(e) => setSelectedProduct(e.target.value)}
+                  className="border border-gray-300  appearance-none rounded-md px-4 py-2 w-40 focus:ring-2 focus:ring-blue-400 outline-none"
+                >
+                  <option value="" disabled>
+                    Select Product
+                  </option>
+                  {productTags?.map((product: string) => (
+                    <option key={product} value={product}>
+                      {product}
+                    </option>
+                  ))}
+                </select>
+                <img
+                  src={dropdownAerrow}
+                  alt="Dropdown Arrow"
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 pointer-events-none"
+                />
+              </div>
+              <button
+                disabled={!selectedState || !selectedProduct}
+                onClick={fetchData}
+                className={`px-6 py-2 text-white rounded-lg ${
+                  !selectedState || !selectedProduct
+                    ? "bg-gray-400 cursor-not-allowed"
+                    : "bg-[#1D4A72]"
+                }`}
+              >
+                Fetch Organizations
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Fetch Button */}
-
-      {/* Loading Indicator */}
-      {loading && <p className="mt-4 text-gray-600">Loading...</p>}
-
-      {/* Grouped Data Display */}
-      <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
-        {Object.keys(groupedData).length > 0 ? (
-          Object.keys(groupedData).map((type) => (
-            <div key={type} className="bg-gray-100 p-4 rounded-lg shadow-md">
-              <div className="flex items-center gap-2 mb-3">
-                {typeIcons[type] || "🏭"}
-                <h3 className="text-lg font-semibold">{type}</h3>
-              </div>
-              <ul className="list-none">
-                {groupedData[type].map((org, index) => (
-                  <li
-                    key={index}
-                    className="p-2 bg-white shadow-sm rounded-md mb-2 flex justify-between"
-                  >
-                    <span className="font-medium">{org.organizationID}</span>
-                    <span className="text-gray-600">{org.product}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))
+      {/* Right Section - Selection & Results */}
+      <div className="w-full">
+        {loading ? (
+          <div className="flex justify-center items-center w-full h-full">
+            <p className="mt-4 t text-gray-600">Loading...</p>
+          </div>
         ) : (
-          <p className="text-gray-500">No results found.</p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full h-full pl-4 ">
+            {Object.keys(groupedData).length > 0 ? (
+              Object.keys(groupedData).map((type) => (
+                <div
+                  key={type}
+                  className="bg-gray-100 p-4 rounded-lg shadow-md"
+                >
+                  <div className="flex items-center justify-between gap-2 mb-3">
+                    <h3 className="text-lg font-semibold flex items-center gap-2">
+                      {" "}
+                      {typeIcons[type] || "🏭"} {type}
+                    </h3>
+                    <div>
+                      <span className="text-gray-600">{selectedProduct}</span>
+                    </div>
+                  </div>
+                  <ul className="list-none space-y-2">
+                    {groupedData[type].map((org, index) => (
+                      <li
+                        key={index}
+                        className="p-3 bg-white shadow-md rounded-md flex justify-between items-center"
+                      >
+                        <span className="font-medium">
+                          {org.organizationID}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))
+            ) : (
+              <p className="text-gray-500"></p>
+            )}
+          </div>
         )}
       </div>
     </div>
