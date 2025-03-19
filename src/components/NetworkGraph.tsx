@@ -14,6 +14,7 @@ import { useGetOrgType } from "../query/useGetOrgtype";
 import { useGetOrgSubType } from "../query/useGetOrgSubType";
 import { dropdownAerrow } from "../assets";
 import LegendBar from "./LegendBar";
+import SingleVerticalBarChart from "./VerticalStackedBarChart";
 
 HighchartsNetwork(Highcharts);
 
@@ -508,6 +509,7 @@ const NetworkGraph: React.FC<iNetworkGraph> = (props) => {
           </div>
           <div className="col-span-2">
             <LegendBar />
+            {/* <SingleVerticalBarChart /> */}
           </div>
         </div>
       </div>

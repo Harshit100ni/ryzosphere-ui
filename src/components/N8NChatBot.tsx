@@ -67,7 +67,7 @@ const N8NChatBot = () => {
               }}
               className={`p-3 rounded-lg max-w-[75%] ${
                 msg.sender === "bot"
-                  ? "bg-gray-200 text-gray-900"
+                  ? "text-[#303030]"
                   : "bg-[#1D4A72] text-white "
               }`}
             >
