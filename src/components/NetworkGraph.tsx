@@ -485,7 +485,7 @@ const NetworkGraph: React.FC<iNetworkGraph> = (props) => {
             </div>
           </div>
         </div>
-        <div className="grid grid-cols-12 h-full">
+        <div className="flex grid-cols-12 h-full">
           <div className="w-full col-span-10 mx-auto bg-[#ffffff]">
             <div className="w-full h-full  bg-[#ffffff] overflow-hidden relative">
               {isLoading ? (
