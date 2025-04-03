@@ -44,8 +44,9 @@ const RyzosphereGraph: React.FC = () => {
               </span>
             </div>
             <button
+              disabled={true}
               onClick={() => setIsOpenModal(true)}
-              className="text-[#1D4A72] text-lg border border-[#1D4A72] py-2 px-6 rounded-xl"
+              className="text-[#1D4A72] text-lg border border-[#1D4A72] py-2 px-6 rounded-xl disabled:bg-gray-300 disabled:border-gray-400 disabled:text-gray-500 disabled:cursor-not-allowed"
             >
               <div className="flex gap-3">
                 <img
