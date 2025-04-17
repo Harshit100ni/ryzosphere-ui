@@ -25,7 +25,7 @@ const N8NChatBot = () => {
 
     try {
       const response = await fetch(
-        "https://creativeglu.app.n8n.cloud/webhook/7159b04d-69bf-4972-980a-4bc268a2f708/chat",
+        "https://gluagents.xyz/webhook/7159b04d-69bf-4972-980a-4bc268a2f708/chat",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
