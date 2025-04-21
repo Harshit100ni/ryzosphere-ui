@@ -16,7 +16,7 @@ type Organization = {
 };
 
 const signals = [
-  "Get Orgnization With Same and Product",
+  "Get Orgnization With same state and product",
   // "Market Expansion Potential",
   // "Supplier Distribution Analysis",
 ];
@@ -96,7 +96,8 @@ const GetOrgTypeWithStateAndProduct = () => {
         >
           <div className="w-full p-2 shadow-lg border-2 border-gray-100 mt-3">
             <p className="text-gray-600 text-sm mb-4">
-              Select a State and Product Type to find organizations.
+              This Ryzosphere signal is designed to identify organizations that
+              operate within the same state and deal in the same product type.
             </p>
             <div className="flex gap-x-4 items-center justify-evenly mb-6">
               <div className="relative">

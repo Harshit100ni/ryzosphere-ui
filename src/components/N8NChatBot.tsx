@@ -5,7 +5,7 @@ import { person, stars } from "../assets";
 const N8NChatBot = () => {
   const [messages, setMessages] = useState([
     {
-      text: "Welcome to the Neo4j Knowledge Graph Chat. You can ask questions related to documents that have been completely processed.",
+      text: "you can ask questions related to ryzosphere network",
       sender: "bot",
     },
   ]);
