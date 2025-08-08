@@ -5,9 +5,11 @@ import { FunctionComponent } from "react";
 const LegendBar: FunctionComponent = () => {
   const { data } = useGetNodeCount();
 
+  console.log("data", data);
+
   const filteredData = legendData.map((legend, index) => {
-    const nodeData = data?.find((item: any) => item.node === legend.label);
-    return { ...legend, value: nodeData ? nodeData.value : 0 };
+    const nodeData = data?.find((item: any) => item.label === legend.label);
+    return { ...legend, value: nodeData ? nodeData.count : 0 };
   });
   console.log("filteredData", filteredData);
   return (
