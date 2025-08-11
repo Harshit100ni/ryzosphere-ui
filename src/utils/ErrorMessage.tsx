@@ -1,14 +1,9 @@
 import { iErrorMessageProps } from "@/types/ErrorMessageTypes";
 import React from "react";
 
-const ErrorMessage: React.FC<iErrorMessageProps> = ({ error, touched }) => {
-  if (!touched) {
-    return null;
-  }
-
-  const displayError = error || "This field is required";
-
-  return <div className="text-red-500 text-sm mt-1">{displayError}</div>;
+const ErrorMessage: React.FC<any> = ({ error, touched }) => {
+  if (!touched || !error) return null;
+  return <div className="text-red-500 text-sm">{error}</div>;
 };
 
 export default ErrorMessage;

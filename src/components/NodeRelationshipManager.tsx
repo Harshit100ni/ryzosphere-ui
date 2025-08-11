@@ -77,6 +77,8 @@ const NodeRelationshipManager: React.FC<iNodeRelationshipManagerProps> = (
             onSubmit={handleSubmit}
             enableReinitialize={true}
             validateOnChange={true}
+            validateOnBlur={true}
+            validateOnMount={true}
           >
             {({ errors, touched }) => (
               <Form className="space-y-14">
