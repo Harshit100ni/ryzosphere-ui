@@ -52,6 +52,7 @@ const Header = () => {
               >
                 {authState === "true" ? "Sign Out" : "Sign In"}
               </button>
+              <span className="ml-4">v0.1.0</span>
             </div>
           </div>
         </div>

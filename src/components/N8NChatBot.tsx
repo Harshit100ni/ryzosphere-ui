@@ -22,17 +22,23 @@ const N8NChatBot = () => {
 
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 3 * 60 * 1000); // 2-minute timeout
+    const username = import.meta.env.VITE_CHATBOT_USER;
+    const password = import.meta.env.VITE_CHATBOT_PASS;
+    const chatbotUrl = import.meta.env.VITE_CHATBOT_URL;
+    const basicAuth = "Basic " + btoa(`${username}:${password}`);
+
+    console.log("chatbotUrl", chatbotUrl);
 
     try {
-      const response = await fetch(
-        "https://gluagents.xyz/webhook/7159b04d-69bf-4972-980a-4bc268a2f708/chat",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ query: input }),
-          signal: controller.signal, // Attach the signal for timeout
-        }
-      );
+      const response = await fetch(chatbotUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: basicAuth,
+        },
+        body: JSON.stringify({ query: input }),
+        signal: controller.signal, // Attach the signal for timeout
+      });
 
       clearTimeout(timeoutId); // Clear timeout if request succeeds
 
